@@ -1,0 +1,12 @@
+# Pycharm folder
+/.idea/
+
+# Compiled python modules.
+*.pyc
+
+# Setuptools build and distribution folders.
+/build/
+/dist/
+
+# Python egg metadata, regenerated from source files by setuptools.
+/*.egg-info
