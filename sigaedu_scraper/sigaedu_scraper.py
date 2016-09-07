@@ -160,7 +160,7 @@ class Session:
         get_id: Obtém o ID de sessão atual
 
     """
-    def __init__(self, user: str, password: str, url: str, user_agent: str):
+    def __init__(self, user: str, password: str, url: str, user_agent: str = None, custom_params: dict = None):
         self.url = url  # Página base
         self.viewstate = None  # Viewstate inicial é desconhecido
 
@@ -170,6 +170,7 @@ class Session:
             self.session.headers.update({
                 'User-Agent': user_agent
             })
+        self.custom_params = custom_params or dict()
 
         # Faz login
         self.login(user, password)
@@ -182,6 +183,8 @@ class Session:
         Retorna:
             O pedido já executado
         """
+        kwargs.update(self.custom_params)
+
         # Cria o parâmetro 'data' nos kwargs caso não seja fornecido
         if 'data' not in kwargs.keys():
             kwargs['data'] = {}
@@ -190,6 +193,9 @@ class Session:
         kwargs['data'].update({
             'javax.faces.ViewState': self.viewstate
         })
+
+        logging.debug(kwargs);
+
 
         logging.debug("Fazendo um pedido para '{0}' com o viewstate '{1}'".format(page, self.viewstate))
         # Faz o pedido, passando os argumentos recebidos
@@ -277,8 +283,8 @@ class Scraper:
         get_periodos
         get_diario
     """
-    def __init__(self, user: str, password: str, url: str, user_agent: str = None):
-        self.session = Session(user, password, url, user_agent)
+    def __init__(self, user: str, password: str, url: str, user_agent: str = None, custom_params: dict = None):
+        self.session = Session(user, password, url, user_agent, custom_params)
 
     def get_matriculas(self) -> dict:
         """

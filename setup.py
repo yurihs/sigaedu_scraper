@@ -6,7 +6,7 @@ def readme():
         return f.read()
 
 setup(name='sigaedu_scraper',
-      version='0.1',
+      version='0.2',
       description='SIGA-EDU web app scraper',
       long_description=readme(),
       classifiers=[
